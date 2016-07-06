@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+
 <input type="text" ng-model="name">
 <input type="text" ng-model="age"> <br>
 <div ng-bind-template="{{name}}{{age}}"></div>
@@ -20,6 +21,8 @@
     //ng-non-bindable 取消绑定
         //{{age}}在angular中会被当作数据查找 没有的话就空
     //ng-bind-template 绑定多组模板。仍然可以解决闪烁问题
+
+
 </script>
 </body>
 </html>
