@@ -20,6 +20,7 @@
 <body>
 <div mydrag></div>
 <div mydrag></div>
+<script src="../node_modules/jquery/dist/jquery.js"></script>
 <script src="angular.js"></script>
 <script>
     var app = angular.module('appModule',[]);
@@ -31,18 +32,19 @@
                 //拖拽由mousedown mouseup  mousemove
     element.on('mousedown', function (e) {
         //在这里求出的是鼠标距离盒子的距离
-        var disx = e.pageX - element[0].offsetLeft;
-        var disy = e.pageY - element[0].offsetTop;
+        //因为原有angular库中没有offset方法，所以把他包装正规的jquery就可以调用jq的方法了
+        var disx = e.pageX - $(element).offset().left;
+        var disy = e.pageY - $(element).offset().top;
         //先包装为jq对象
-        angular.element(document).on('mousemove', function (e) {
+        $(document).on('mousemove', function (e) {
+            //求出当前盒子距离浏览器的偏移量
             var L = e.pageX - disx;
             var T = e.pageY - disy;
-            element.css('top',T+'px');
-            element.css('left',L+'px');
+            $(element).css({'top':T,'left':L});
         });
-        angular.element(document).on('mouseup', function () {
+        $(document).on('mouseup', function () {
                 //在我们从文档抬起后，我们要移出mousemove和mouseup
-            angular.element(document).off();
+            $(document).off();
         });
         //阻止默认事件
         e.preventDefault();
@@ -50,6 +52,10 @@
             }
         }
     })
+    //问题1：
+    //多个单词用-连接
+    //问题2：
+    //angular.element 内置方法 相当于$
 </script>
 <script>
 
