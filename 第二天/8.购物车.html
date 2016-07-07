@@ -81,8 +81,10 @@
         }
         $scope.removeSelect = function(){
             angular.forEach($scope.books,function(book){
+                //如果当前书被选中
                 if(book.selected)
                 {
+                    //调用删除每一本书
                     $scope.remove(book);
                 }
             });
