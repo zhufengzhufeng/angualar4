@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+        div+div{
+            background: yellow;
+        }
+    </style>
+</head>
+<body>
+<div mydrag></div>
+<div mydrag></div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.directive('mydrag', function () {
+        return {
+            restrict:'A',
+            link: function (scope,element,attrs) {
+                //element就是我们要拖拽的对象
+                //拖拽由mousedown mouseup  mousemove
+    element.on('mousedown', function (e) {
+        //在这里求出的是鼠标距离盒子的距离
+        var disx = e.pageX - element[0].offsetLeft;
+        var disy = e.pageY - element[0].offsetTop;
+        //先包装为jq对象
+        angular.element(document).on('mousemove', function (e) {
+            var L = e.pageX - disx;
+            var T = e.pageY - disy;
+            element.css('top',T+'px');
+            element.css('left',L+'px');
+        });
+        angular.element(document).on('mouseup', function () {
+                //在我们从文档抬起后，我们要移出mousemove和mouseup
+            angular.element(document).off();
+        });
+        //阻止默认事件
+        e.preventDefault();
+    });
+            }
+        }
+    })
+</script>
+<script>
+
+
+
+
+
+</script>
+</body>
+</html>
