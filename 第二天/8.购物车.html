@@ -17,12 +17,12 @@
         <td>操作</td>
     </tr>
     <tr ng-repeat="book in books">
-        <td><input type="checkbox" ng-model="book.selected"></td>
+        <td><input type="checkbox" ng-model="book.selected" ng-click="select()"></td>
         <td>{{book.name}}</td>
         <td>{{book.price}}</td>
         <td><button ng-click="book.count=book.count-1" ng-disabled="book.count==1">-</button><input type="text" ng-model="book.count"><button ng-click="book.count=book.count+1">+</button></td>
         <td>{{book.price*book.count}}</td>
-        <td><button class="btn btn-danger">删除</button></td>
+        <td><button class="btn btn-danger" ng-disabled="!book.selected" ng-click="remove(book)">删除</button></td>
     </tr>
 </table>
 <script>
@@ -42,6 +42,22 @@
             var cur = $scope.checks;
             angular.forEach($scope.books, function (item) {
                 item.selected = cur;
+            });
+        }
+        $scope.select = function () {
+            var flag = true;
+            angular.forEach($scope.books, function (item) {
+                if(!item.selected)flag=false;
+            });
+            //有一个没有被选中 那全选状态必然为false 否则依然为true
+            $scope.checks = flag;
+        };
+        $scope.remove = function (book) {
+            //filter 数组里的方法过滤
+            //将不满足条件的过滤掉 满足的组成一个新的数组
+            $scope.books = $scope.books.filter(function (item) {
+                //将不删除的返回
+                return item!=book;
             })
         }
     });
