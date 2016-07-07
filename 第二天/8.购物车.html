@@ -30,7 +30,7 @@
     </tr>
     <tr>
         <td colspan="6">
-            总价格{{total()}} <button class="btn btn-primary">删除选中商品</button>
+            总价格{{total()}} <button class="btn btn-primary" ng-click="removeSelect()">删除选中商品</button>
         </td>
     </tr>
 </table>
@@ -78,6 +78,14 @@
                 }
             });
             return sum;
+        }
+        $scope.removeSelect = function(){
+            angular.forEach($scope.books,function(book){
+                if(book.selected)
+                {
+                    $scope.remove(book);
+                }
+            });
         }
     });
 </script>
