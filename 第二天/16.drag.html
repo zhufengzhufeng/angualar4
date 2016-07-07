@@ -33,8 +33,8 @@
     element.on('mousedown', function (e) {
         //在这里求出的是鼠标距离盒子的距离
         //因为原有angular库中没有offset方法，所以把他包装正规的jquery就可以调用jq的方法了
-        var disx = e.pageX - $(element).offset().left;
-        var disy = e.pageY - $(element).offset().top;
+        var disx = e.pageX - this.offsetLeft;
+        var disy = e.pageY - $(this).offset().top;
         //先包装为jq对象
         $(document).on('mousemove', function (e) {
             //求出当前盒子距离浏览器的偏移量
@@ -51,11 +51,13 @@
     });
             }
         }
-    })
+    });
     //问题1：
     //多个单词用-连接
     //问题2：
     //angular.element 内置方法 相当于$
+    //问题3：
+    //如果使用this也必须包装一下
 </script>
 <script>
 
