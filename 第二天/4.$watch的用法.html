@@ -26,8 +26,7 @@
         //会让$scope.total执行 执行后的结果变化传递给newVal
         $scope.$watch($scope.total, function (newVal) {
             $scope.product.ems = newVal>=100?0:10;
-        })
-    });
+        });
 </script>
 </body>
 </html>
