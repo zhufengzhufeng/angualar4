@@ -46,8 +46,9 @@
         $scope.$on('money', function (event,data) {
             $scope.product.count = data/$scope.product.price;
         });
+        //控制器和控制器间交互是通过事件进行，而不是共享控制器
     });
-    //平级关系
+    //平级关系:我们有$rootScope,最大作用域 先向上发射，在向下广播
     //子父级
 </script>
 </body>
