@@ -5,7 +5,11 @@
     <title>Title</title>
 </head>
 <body ng-controller="ctrl">
-<!--在哪里遍历遍历出来的东西一个作为value值为了用户可见的值-->
+<!--
+在哪里遍历遍历出来的东西,d in data
+d.value as一个作为value值
+d.name for为了用户可见的值
+-->
 <select ng-model="select" ng-options="d.value as d.name for d in data">
 </select>
 <div ng-controller="ctrl"></div>
