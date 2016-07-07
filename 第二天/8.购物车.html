@@ -20,9 +20,18 @@
         <td><input type="checkbox" ng-model="book.selected" ng-click="select()"></td>
         <td>{{book.name}}</td>
         <td>{{book.price}}</td>
-        <td><button ng-click="book.count=book.count-1" ng-disabled="book.count==1">-</button><input type="text" ng-model="book.count"><button ng-click="book.count=book.count+1">+</button></td>
+        <td><button ng-click="book.count=book.count-1" ng-disabled="book.count==1">-</button>
+            <input type="text" ng-model="book.count" ng-readonly="true">
+            <!--让当前的输入框是仅读状态用户不能修改只可以看-->
+            <button ng-click="book.count=book.count+1">+</button>
+        </td>
         <td>{{book.price*book.count}}</td>
         <td><button class="btn btn-danger" ng-disabled="!book.selected" ng-click="remove(book)">删除</button></td>
+    </tr>
+    <tr>
+        <td colspan="6">
+            总价格{{total()}} <button class="btn btn-primary">删除选中商品</button>
+        </td>
     </tr>
 </table>
 <script>
@@ -59,6 +68,16 @@
                 //将不删除的返回
                 return item!=book;
             })
+        };
+        $scope.total = function () {
+            var sum = 0;
+            angular.forEach($scope.books, function (item) {
+                //如果被选中我们进行累加
+                if(item.selected){
+                    sum+=item.price*item.count;
+                }
+            });
+            return sum;
         }
     });
 </script>
