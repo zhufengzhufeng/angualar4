@@ -67,14 +67,13 @@
                 scope.show = function () {
                     scope.flag = !scope.flag;
                     groupCtrl.show(scope);//点击的时候传递当前作用域
-                }
+                };
                 //只要上面有open指令就会执行add方法
                 console.log(scope);
                 groupCtrl.add(scope);//将自己的作用域传递给group
             }
         }
     });
-
 </script>
 </body>
 </html>
