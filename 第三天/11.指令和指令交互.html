@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+
 <girl lovemoney lovecry></girl>
 <script src="angular.js"></script>
 <script>
@@ -12,6 +13,7 @@
     var app = angular.module('appModule',[]);
     app.directive('girl', function () {
         return {
+            restrict:'E',
             template:'<div ng-click="show()">Angular MM</div>',
             //共享方法  当前指令的控制器
             controller: function ($scope) {
@@ -29,9 +31,22 @@
             }
         }
     });
+    app.directive('lovecry', function () {
+        return {
+            restrict:'A',
+            require:'^girl',
+            link: function (scope,element,attrs,girlCtrl) {
+                girlCtrl.add('lovecry')
+            }
+        }
+    })
+
+
+
     app.directive('lovemoney', function () {
         //当前的lovemoney指令是依赖于girl的
         return {
+            restrict:'A',
             //因为当前的lovemoney和lovecry就在当前的指令上
             require:'^girl',
           /*  require:'girl',//直接写girl表示在当前指令下查找（平级）

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .title{
+            width: 200px;
+            height: 30px;
+            line-height:30px;
+            background: -webkit-linear-gradient(pink,yellow);
+            outline: 1px salmon solid;
+        }
+        .content{
+            width: 200px;
+            height:200px;
+            background: yellow;
+            box-shadow: inset 1px 1px 1px #ccc,1px 1px 1px #ccc;
+            -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(255,255,255,.3));
+        }
+    </style>
+</head>
+<body>
+<open title="这是第一个内容">这是开关里的内容</open>
+<open title="这是第二个内容">这是开关里的内容</open>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.directive('open', function () {
+        return {
+            restrict:'E',
+            transclude:true,
+            templateUrl:'open.html',
+            scope:{
+              title:'@'
+            },
+            link: function (scope,element,attrs) {
+                scope.flag = true;
+                scope.show = function () {
+                    scope.flag = !scope.flag;
+                }
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
