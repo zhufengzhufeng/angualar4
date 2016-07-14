@@ -15,7 +15,7 @@
             //先拿到要装饰的函数
             ['warn','log','info','debug','error'].forEach(function (item) {
                 $delegate[item] = decorator($delegate[item])
-            })
+            });
             function decorator(method){
                 return function (params) {
                     var arg = Array.prototype.slice.call(arguments)

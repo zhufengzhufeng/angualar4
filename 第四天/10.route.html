@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--写两个按钮-->
+<a href="#/home">主页</a>
+<a href="#/user">用户列表</a>
+<!--所有的应用的template都是显示在这个ng-view里-->
+<div ng-view></div>
+<script src="angular.js"></script>
+<script src="angular-route.js"></script>
+<script>
+    //下载路由 npm install angular-route
+    //当前模块要依赖于angualr-route 实现路由
+    var app = angular.module('appModule',['ngRoute']);
+    //进行配置路由
+    app.controller('ctrl', function ($scope) {
+        $scope.title='hello'
+    });
+    app.config(function ($routeProvider) {
+        //通过$routeProvider设置页面跳转
+        //当路由为/home的时候使用<div>home</div>
+        $routeProvider.when('/home',{
+            templateUrl:'tmpl/home.html',
+            controller: 'ctrl'
+        }).when('/user',{
+            template:'<div>user</div>'
+        }).otherwise('/home');//默认跳转到/home下
+    })
+</script>
+</body>
+</html>
