@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/ionic.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<script src="angular.js"></script>
+<script src="angular-ui-router.js"></script>
+<body>
+<!--默认的视图-->
+<div class="bar bar-header bar-positive">
+    <h1 class="title">bar-positive</h1>
+</div>
+<div ui-view></div>
+<script>
+    var app = angular.module('appModule',['ui.router']);
+    app.config(function ($stateProvider,$urlRouterProvider) {
+        $stateProvider.state('home',{
+            url:'/home',
+            views:{
+                '':{
+                    templateUrl:'tmpl/home.html'
+                }
+            }
+        }).state('home.home',{
+            url:'/home',
+            views:{
+                '':{
+                    templateUrl:'tmpl/tm1.html',
+                    controller: function ($scope) {
+                        $scope.flag = true;
+                        $scope.flag1 = false;
+                    }
+                }
+            }
+        }).state('home.search',{
+            url:'/search',
+            views:{
+                '':{
+                    templateUrl:'tmpl/tm2.html'
+                }
+            }
+        }).state('home.car',{
+            url:'/car',
+            views:{
+                '':{
+                    templateUrl:'tmpl/tm3.html'
+                }
+            }
+        }).state('home.albums',{
+            url:'/albums',
+            views:{
+                '':{
+                    templateUrl:'tmpl/tm4.html'
+                }
+            }
+        });
+        $urlRouterProvider.otherwise('home')
+
+    })
+</script>
+</body>
+</html>

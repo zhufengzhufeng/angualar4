@@ -9,7 +9,7 @@
 <nav class="navbar navbar-default ">
     <div class="container">
         <ul class="nav navbar-nav">
-            <li >
+            <li>
                 <a ui-sref="home">首页</a>
             </li>
             <li >
@@ -27,13 +27,34 @@
         //当ui-sref等于这个状态的时候home
         $stateProvider.state('home',{
             url:'/home',
-            templateUrl:'tmpl/home.html',
+            views:{
+                '':{
+                  templateUrl:'tmpl/home.html' //引用默认模板
+                },//默认渲染home.html
+                'tmpl1@home':{
+                    templateUrl:'tmpl/tmp1.html' //引用具体的模板
+                },
+                'tmpl2@home':{
+                    templateUrl:'tmpl/tmp2.html' //引用具体的模板
+                }
+            }
+            //templateUrl:'tmpl/home.html',
         }).state('home.news',{
             url:'/news',
             templateUrl:'tmpl/news.html',
+            controller: function ($scope,$state) {//$state跳转页面等同于$location
+                $scope.go = function () {
+                    //路由传递参数
+                    $state.go('home.play',{name:'zpfx'})
+                }
+            }
         }).state('home.play',{
-            url:'/play',
+            url:'/play/:name',
             templateUrl:'tmpl/play.html',
+            controller: function ($scope,$stateParams) {//routeParams
+                $scope.name = $stateParams.name;
+                //通过$stateParams将参数取过来
+            }
 
         }).state('user',{
             url:'/user',
