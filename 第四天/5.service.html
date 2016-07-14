@@ -18,37 +18,20 @@
 <script src="angular.js"></script>
 <script>
     var app = angular.module('appModule',[]);
-    app.config(function (myProvider) {//myProvider当前服务的实例
-        myProvider.currency = '法郎'
-    });
-    app.provider('my', function () {
-        //只要我们用provider定义会默认调用$get方法
-        this.currency = '$';
-        this.$get = function () {
-            var that = this;
-            return {
-                '+': function (a,b) {
-                    return that.currency+(a+b);
-                }
-                //箭头函数里是没有this指向的，会找他的上级
-                //'+':(a,b)=>{this.currency+(a+b)
-            }
+    //除了provider都是不可配置的
+    //factory直接返回对象
+    app.service('my', function () {
+        //直接给实例添加方法
+        this['+'] = function (a,b) {
+            return a+b;
         }
     });
     app.controller('ctrl', function ($scope,$timeout,my) {
-        //调用服务上的方法
         $scope.method = function () {
            $scope.total =  my['+']($scope.a,$scope.b);
         }
     })
-    /*function my(){
-        this.a = 100;
-        this.$get = function () {
-            
-        }
-    }
-    var m = new my();
-    m.a = 200;*/
+
 </script>
 </body>
 </html>

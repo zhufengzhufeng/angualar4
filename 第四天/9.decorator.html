@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="ctrl">
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //我们要装饰这个服务就要配置这个服务
+    app.config(function ($provide) {
+        //通过$provide装饰我们写好的服务
+        $provide.decorator('$log', function ($delegate) {
+            //先拿到要装饰的函数
+            ['warn','log','info','debug','error'].forEach(function (item) {
+                $delegate[item] = decorator($delegate[item])
+            })
+            function decorator(method){
+                return function (params) {
+                    var arg = Array.prototype.slice.call(arguments)
+                    arg.unshift(new Date());
+                    method.apply(null,arg);
+                }
+            }
+            return $delegate
+        })
+    })
+    app.factory('my', function () {
+        return {
+            name: function () {
+                return 'zfpx;'
+            }
+        }
+    });
+    app.controller('ctrl', function ($log) {
+        $log.error('日志','日志')
+    })
+</script>
+</body>
+</html>

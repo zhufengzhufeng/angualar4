@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="ctrl">
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //我们要装饰这个服务就要配置这个服务
+    app.config(function ($provide) {
+        //通过$provide装饰我们写好的服务
+        $provide.decorator('my', function ($delegate) {
+            //将$delegate（代理）进行装饰
+            console.log($delegate.name );
+            $delegate.name = 'big'+$delegate.name;
+
+            //装饰函数
+            return $delegate;//将改好的返回回去
+        })
+    })
+    //创建一个服务
+    app.factory('my', function () {
+        return {
+            name: function () {
+                return 'zfpx;'
+            }
+        }
+    });
+    app.controller('ctrl', function (my) {
+        console.log(my.name);
+    })
+</script>
+</body>
+</html>

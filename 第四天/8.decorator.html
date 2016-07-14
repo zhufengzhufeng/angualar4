@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="ctrl">
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //我们要装饰这个服务就要配置这个服务
+    app.config(function ($provide) {
+        //通过$provide装饰我们写好的服务
+        $provide.decorator('$log', function ($delegate) {
+            ['warn','log','info','error','debug'].forEach(function (item) {
+                //这里拿到的是每一个输出的值对应的函数
+                //要把原有的方法进行包装
+                $delegate[item] = decorator($delegate[item]);
+            });
+            function decorator(method) {
+                return function () {
+                    //这里参数就是我们写的“日志”
+                    //拿到执行时的参数列表
+                    var args = Array.prototype.slice.call(arguments);
+                    //在参数列表中添加时间
+                    args.unshift(new Date());
+                    //将参数包装好执行
+                    method.apply(null,args);
+                }
+            }
+            return $delegate;
+        })
+    })
+    //创建一个服务
+    app.factory('my', function () {
+        return {
+            name: function () {
+                return 'zfpx;'
+            }
+        }
+    });
+    app.controller('ctrl', function ($log) {
+        $log.info('日志');
+        $log.error('日志');
+    })
+</script>
+</body>
+</html>
