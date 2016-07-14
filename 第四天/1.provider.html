@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+<body>
+<div class="form-group col-xs-4 col-xs-offset-4" ng-controller="ctrl as vm">
+    <input type="text" class="form-control" ng-model="vm.a">
+    <select class="form-control" ng-model="vm.select">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="text" class="form-control" ng-model="vm.b">
+    <button class="btn-primary btn" ng-click="vm.method()">=</button>
+    {{vm.total}}
+</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //创建服务的第一种方式，
+    //param1:服务的名字
+    //如果发现你定义的服务是用provider定义的会默认调用你的$get方法，并将return返回给你
+    //es6中的箭头函数
+    app.provider('my', function () {
+        //默认返回一个$get方法
+        this.$get = function () {
+            return {
+                "+":(a,b)=>a+b,
+                "-":(a,b)=>a-b,
+                "*":(a,b)=>a*b,
+                "/":(a,b)=>a/b,
+                /*function (a,b) {
+                    return a+b;
+                }*/
+            }
+        }
+    })
+    app.controller('ctrl', function (my) {
+        console.log(my);
+        console.log(this.select);
+        //this.select代表的是select被选中的值
+        this.method = function () {
+           my[this.select](this.a,this.b);
+        }
+       //console.log(my);
+    })
+
+</script>
+</body>
+</html>

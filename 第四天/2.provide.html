@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+<body>
+<div class="form-group col-xs-4 col-xs-offset-4" ng-controller="ctrl">
+    <input type="text" class="form-control" ng-model="a">
+    <select class="form-control" ng-model="select">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="text" class="form-control" ng-model="b">
+    <button class="btn-primary btn" ng-click="method()">=</button>
+    {{total}}
+</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //创建服务的第一种方式，
+    //param1:服务的名字
+    //如果发现你定义的服务是用provider定义的会默认调用你的$get方法，并将return返回给你
+    //es6中的箭头函数
+    //provider是唯一一个支持配置的
+    app.config(function (myProvider) { //想配置什么就在函数里注入对应的服务加上Provider
+        myProvider.currency = '英镑';//给当前实例修改对应的标识
+    });
+    app.provider('my', function () {
+        //默认返回一个$get方法
+        this.currency = '$'; //默认的是美元
+        this.$get = function () {
+            var that = this;
+            return {
+                "+": function (a,b) {return that.currency+(a+b);},
+                "-": function (a,b) {return that.currency+(a-b);},
+                "*": function (a,b) {return that.currency+(a*b);},
+                "/": function (a,b) {return that.currency+(a/b);},
+            }
+        }
+    });
+    app.controller('ctrl', function ($scope,my) {
+        $scope.a = 100;
+        $scope.b = 100;
+        $scope.select = '+';
+        $scope.method = function () {
+            //$scope.total是最终的结果
+            //my[$scope.select]根据下拉菜单的值，取到对应服务的方法，将参数传递进去，执行方法
+            $scope.total = my[$scope.select](parseInt($scope.a),parseInt($scope.b));
+        }
+    })
+
+</script>
+</body>
+</html>
