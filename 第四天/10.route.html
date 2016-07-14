@@ -8,6 +8,7 @@
 <!--写两个按钮-->
 <a href="#/home">主页</a>
 <a href="#/user">用户列表</a>
+<a href="#/settings">个人设置</a>
 <!--所有的应用的template都是显示在这个ng-view里-->
 <div ng-view></div>
 <script src="angular.js"></script>
@@ -17,19 +18,54 @@
     //当前模块要依赖于angualr-route 实现路由
     var app = angular.module('appModule',['ngRoute']);
     //进行配置路由
-    app.controller('ctrl', function ($scope) {
-        $scope.title='hello'
+    app.controller('ctrl', function ($scope,$location) {
+        $scope.title='hello';
+        $scope.go = function () {
+            //点击后跳转到user页面
+            //window.location.href
+            $location.path('/user/100/jw');
+        }
     });
+    //在angular启动时监听路由的变化
+    app.run(function ($rootScope,$location) {
+        $rootScope.flag = true
+        $rootScope.$on('$routeChangeStart', function (event,toState,fromState) {
+            //从哪里来
+            if(toState.$$route.originalPath=='/settings'){
+                if(!$rootScope.flag){
+                    $location.path('/user');
+                }
+                //不光要跳转到别的页面里，还要阻止跳转
+                //event.preventDefault();
+            }
+            /*console.log(toState.$$route.originalPath);
+            console.log(fromState.$$route.originalPath);*/
+
+        })
+    })
+
+
+
+    //如果用户点击个人设置的时候，还没有登陆，默认返回首页
     app.config(function ($routeProvider) {
         //通过$routeProvider设置页面跳转
         //当路由为/home的时候使用<div>home</div>
         $routeProvider.when('/home',{
             templateUrl:'tmpl/home.html',
             controller: 'ctrl'
+        }).when('/settings',{
+            template:'<div>用户设置</div>',
+        }).when('/user/:id/:name',{
+            template:'<div>user {{id}}{{name}}</div>',
+            controller: function ($scope,$routeParams) {
+                //取出路由的参数
+                $scope.id = $routeParams.id;
+                $scope.name = $routeParams.name;
+            }
         }).when('/user',{
             template:'<div>user</div>'
         }).otherwise('/home');//默认跳转到/home下
-    })
+    });
 </script>
 </body>
 </html>
