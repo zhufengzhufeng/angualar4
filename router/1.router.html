@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+<body>
+
+<a ui-sref="home">首页</a>
+<a ui-sref="user">用户</a>
+<div ui-view></div>
+<script src="angular.js"></script>
+<script src="angular-ui-router.js"></script>
+<script>
+    var app = angular.module('appModule',['ui.router']);
+    app.config(function ($stateProvider,$urlRouterProvider) {
+        //当ui-sref等于这个状态的时候home
+        $stateProvider.state('home',{
+            url:'/home',
+            template:'<div>home{{title}}</div>',
+            controller: function ($scope) {
+                $scope.title = 'hello'
+            }
+        }).state('user',{
+            url:'/user',
+            template:'<div>user</div>'
+        });
+        //配置不满足的路由,$urlRouterProvider自带的服务
+        $urlRouterProvider.otherwise('home');
+    })
+</script>
+
+
+</body>
+</html>
